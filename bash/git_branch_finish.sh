@@ -8,4 +8,5 @@ branch=$(echo ${branch/*\/})
 git flow $branch_type finish $branch
 
 git pull origin master
+git pull origin main
 
