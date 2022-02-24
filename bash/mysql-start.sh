@@ -1,1 +1,4 @@
-sudo /usr/local/mysql/support-files/mysql.server start
+#! /bin/bash
+
+brew services start mysql
+

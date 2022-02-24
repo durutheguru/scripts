@@ -1,5 +1,5 @@
 #! /bin/bash
 
 
-for FILE in ~/scripts/bash/*; do echo $FILE; done
+for FILE in ~/VSCode/Private/scripts/bash/*; do echo $FILE; done
 
