@@ -13,3 +13,7 @@ vue create $app_name
 cd $app_name
 vue add vuetify
 
+# npm init vue@latest 
+# vue add vuetify
+# vue add tailwind
+# 
