@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Profile notification client</title>
+  </head>
+  <body>
+    <button id="btn">Send Message</button>
+    <script>
+      var socket = new WebSocket("ws://localhost:17171/ws/connect?token=56ea271a-61c9-48ae-894d-e382b41f1828-1672238191708-edefe7f4-b44f-41c6-bb2e-b91732cec5ad");
+
+      socket.addEventListener("message", function (event) {
+        console.log("message from server: " + event.data);
+      });
+
+      socket.onopen = function () {
+        console.log("clientWebSocket.onopen", socket);
+        console.log("clientWebSocket.readyState", "websocketstatus");
+      };
+
+      socket.onclose = function (error) {
+        console.log("clientWebSocket.onclose", socket, error);
+      };
+
+      socket.onerror = function (error) {
+        console.log("clientWebSocket.onerror", socket, error);
+        // console.log("WS Error: " + JSON.stringify(error));
+      };
+
+      socket.onmessage = function (error) {
+        console.log("clientWebSocket.onmessage", socket, error);
+      };
+
+      var button = document.getElementById("btn");
+      button.addEventListener("click", () => {
+        socket.send("Testing Client Message");
+      });
+    </script>
+  </body>
+</html>

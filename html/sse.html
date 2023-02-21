@@ -1,0 +1,40 @@
+<html lang="fr">
+    <head>
+        <title>Test SSE</title>
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+        <script>
+            const evtSource = new EventSource(
+                "http://localhost:17171/events-streams/v1/notifications/sse?token=a021f72b-cb81-4950-991a-e64e61ff044e-1670441223459-96cd8a79-e9ba-4846-9bc3-6f7683355d9a"
+            );
+            evtSource.onmessage = function(event) {
+                console.log("Message received.");
+                const newElement = document.createElement("li");
+                const eventList = document.getElementById("results");
+                newElement.textContent = "message: " + JSON.stringify(event) + " - " + event.data;
+                eventList.appendChild(newElement);
+            };
+            evtSource.onopen = function(event) {
+                console.log("Connection is Open..");
+            };
+            evtSource.onerror = function() {
+                console.log("Error in Connection");
+            };
+            evtSource.addEventListener(
+                "remilekun", function(evt) {
+                    console.log('remilekun event received');
+                    const newElement = document.createElement("li");
+                    const eventList = document.getElementById("results");
+                    newElement.textContent = "remilekun message: " + JSON.stringify(evt) + " - " + evt.data;
+                    eventList.appendChild(newElement);
+                }
+            );
+        </script>
+    </head>
+    <body>
+        <ul id="results">
+
+        </ul>
+    </body>
+</html>

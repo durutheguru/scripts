@@ -1,0 +1,12 @@
+
+{
+  "partitions": [
+    {
+      "topic": "library-events",
+      "partition": 2,
+      "offset": -1
+    }
+  ],
+  "version": 1
+}
+

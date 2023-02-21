@@ -11,11 +11,11 @@ services:
       - MONGODB_ROOT_USER=username
       - MONGODB_ROOT_PASSWORD=password
     volumes:
-      - ./mongo:/data/db  
+      - ./mongo:/data/db
     networks:
       - docker-net
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
-    
+
 
   mongo-express:
     image: mongo-express
