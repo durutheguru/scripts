@@ -1,0 +1,84 @@
+name: Build and push Docker image to ECR
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  LOCAL: true
+  STAGE: dev
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  CERTIFICATE_ARN: ${{ secrets.CERTIFICATE_ARN }}
+  CLOUDFRONT_SSL_CERTIFICATE_ARN: ${{ secrets.CLOUDFRONT_SSL_CERTIFICATE_ARN }}
+  AWS_REGION: eu-north-1
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{env.AWS_ACCESS_KEY_ID}}
+          aws-secret-access-key: ${{env.AWS_SECRET_ACCESS_KEY}}
+          aws-region: ${{env.AWS_REGION}}
+
+      - name: Get the commit hashes
+        id: vars
+        shell: bash
+        run: |
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Install packages
+        id: install-packages
+        run: npm install
+
+      - name: Build, tag, and push the image to Amazon ECR
+        id: build-image
+        env:
+          LOCAL: true
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: trufflepigapi
+          IMAGE_TAG: ${{ steps.vars.outputs.sha_short }}
+        run: |
+          # Build a docker container and push it to ECR
+          npx nx run api:build-image
+          docker tag hint/api $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "Pushing image to ECR..."
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Run cdk bootstrap
+        id: Run-cdk
+        env:
+          LOCAL: true
+          CONTAINER_VERSION: ${{ steps.vars.outputs.sha_short }}
+        run: |
+          npx nx run infra:bootstrap
+
+      - name: Find the difference between the current state and the target state
+        id: get-diff
+        env:
+          LOCAL: true
+          CONTAINER_VERSION: ${{ steps.vars.outputs.sha_short }}
+        run: |
+          npx nx run infra:synth
+          npx nx run infra:diff
+
+      - name: Deploy the stack to AWS
+        id: deploy-image
+        env:
+          LOCAL: true
+          CONTAINER_VERSION: ${{ steps.vars.outputs.sha_short }}
+        run: |
+          npx nx run infra:deploy
