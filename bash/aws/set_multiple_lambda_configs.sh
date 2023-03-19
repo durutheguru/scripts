@@ -3,10 +3,10 @@
 source ~/.bash_profile
 
 functions=(
-    "save-book"
-    "save-publisher"
-    "find-books"
-    "find-publishers"
+    "save_book"
+    "save_publisher"
+    "find_books"
+    "find_publishers"
 )
 
 
