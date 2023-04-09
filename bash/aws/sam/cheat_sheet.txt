@@ -1,0 +1,43 @@
+
+
+Reference:
+https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-getting-started-hello-world.html
+
+
+
+Building
+$ sam build
+
+$ sam build --config-env "prod"
+
+$ sam build —-parallel
+
+
+Deploying
+$ sam deploy --guided
+
+$ sam list endpoints --output json
+
+
+Syncing
+$ sam sync --watch --region us-east-1
+
+
+Local Testing
+$ sam local invoke
+$ sam local invoke SavePublisherHandlerFunction -e events/event.json --env-vars events/vars.json
+$ sam local start-api
+$ sam local generate-event --help
+$ sam local generate-event [SERVICE] --help
+
+
+Validation
+$ sam validate --lint
+
+
+Deleting
+$ sam delete
+
+
+
+
