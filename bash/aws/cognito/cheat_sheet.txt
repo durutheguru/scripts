@@ -1,0 +1,9 @@
+
+
+hosted url: 
+String result = String.format(
+    "%s/login?response_type=code&client_id=%s&redirect_uri=%s",
+    "https://lambdacrudcog.auth.us-east-1.amazoncognito.com",
+    "7la98mda10sb5o5bmiap84p9a4",
+    URLEncoder.encode("http://localhost:9999/oauth/callback", Charset.defaultCharset())
+);
