@@ -45,3 +45,7 @@ $ sam pipeline init --bootstrap
 
 
 
+Cognito OAuth
+https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html
+
+

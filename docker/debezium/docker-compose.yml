@@ -11,8 +11,10 @@ services:
     networks:
       - docker-net
 
+
   kafka:
-    image: durutheguru/kafka-1:latest
+    image: durutheguru/wurstmeister-kafka:latest
+    platform: linux/arm64/v8
     depends_on:
       - zookeeper
     ports:
@@ -23,6 +25,25 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     networks:
       - docker-net
+
+
+  akhq:
+    image: tchiotludo/akhq
+    environment:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          connections:
+            docker-kafka-server:
+              properties:
+                bootstrap.servers: "kafka:9092"
+              connect:
+                - name: "connect"
+                  url: "http://connect:8083"
+    ports:
+      - "8080:8080"
+    networks:
+      - docker-net
+
 
   mysqldb:
     image: mysql:8.0
@@ -56,9 +77,9 @@ services:
     environment:
      - BOOTSTRAP_SERVERS=kafka:9092
      - GROUP_ID=1
-     - CONFIG_STORAGE_TOPIC=my_connect_configs
-     - OFFSET_STORAGE_TOPIC=my_connect_offsets
-     - STATUS_STORAGE_TOPIC=my_source_connect_statuses
+     - CONFIG_STORAGE_TOPIC=connect_configs
+     - OFFSET_STORAGE_TOPIC=connect_offsets
+     - STATUS_STORAGE_TOPIC=source_connect_statuses
     networks:
       - docker-net
 
