@@ -27,7 +27,7 @@ done < "$input_file"
 
 
 # Loop through all directories and check for changes to push
-while IFS="" read -r dir || [ -n "$dir" ]; do
+while IFS= read -r dir; do
     cd "$dir" || continue
     if [ "$(git status --porcelain)" ]; then
         # Commit and push changes

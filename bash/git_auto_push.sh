@@ -12,7 +12,7 @@ if [ ! -f "$input_file" ]; then
     exit 1
 fi
 
-while IFS="" read -r dir || [ -n "$dir" ]; do
+while IFS= read -r dir || [ -n "$dir" ]; do
     # Skip blank lines
     if [[ -z "$dir" ]]; then
         continue
@@ -26,5 +26,5 @@ while IFS="" read -r dir || [ -n "$dir" ]; do
 done < "$input_file"
 
 
-echo "*/1 * * * * git_cron_push $pwd/$input_file >/dev/null 2>&1" | crontab -
+echo "*/1 * * * * git_cron_push $(pwd)/$input_file" | crontab -
 
