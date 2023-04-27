@@ -26,5 +26,5 @@ while IFS= read -r dir || [ -n "$dir" ]; do
 done < "$input_file"
 
 
-echo "*/1 * * * * git_cron_push $(pwd)/$input_file" | crontab -
+echo "*/1 * * * * git_cron_push $(pwd)/$input_file >> ~/.cron.log 2>&1" | crontab -
 
