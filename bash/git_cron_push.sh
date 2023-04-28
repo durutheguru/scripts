@@ -14,7 +14,7 @@ fi
 
 while IFS= read -r dir; do
     # Skip blank lines
-    if [[ -z "$dir" ]]; then
+    if [[ "$dir" =~ ^[[:space:]]*$ ]]; then
         continue
     fi
 
@@ -33,9 +33,9 @@ while IFS= read -r dir; do
         # Commit and push changes
         git add .
         git commit -m "Code updates"
-        git pull --rebase
-        git push
-    else 
+        git pull origin "$(git branch --show-current)"
+        git push origin "$(git branch --show-current)"
+    else
         echo "No changes to push in dir $dir"
     fi
     cd - >/dev/null || continue
