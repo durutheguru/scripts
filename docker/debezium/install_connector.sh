@@ -1,7 +1,7 @@
 #!/bin/bash
 
 curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" localhost:8083/connectors/ -d '{
-  "name": "lambda_crud-connector",
+  "name": "lambda_crud-connector-2",
   "config": {
     "connector.class": "io.debezium.connector.mysql.MySqlConnector",
     "tasks.max": "1",
