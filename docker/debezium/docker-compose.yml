@@ -63,6 +63,7 @@ services:
     networks:
       - docker-net
 
+
   connect:
     image: quay.io/debezium/connect:2.1
     restart: always
