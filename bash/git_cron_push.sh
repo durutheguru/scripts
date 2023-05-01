@@ -31,6 +31,8 @@ while IFS= read -r dir; do
     cd "$dir" || continue
     if [ "$(git status --porcelain)" ]; then
         # Commit and push changes
+        git config --global user.name "Julian Duru"
+        git config --global user.email "durutheguru@gmail.com"
         git add .
         git commit -m "Code updates"
         git pull origin "$(git branch --show-current)"
