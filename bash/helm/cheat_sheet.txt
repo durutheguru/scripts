@@ -1,11 +1,20 @@
 
 
+Create a helm directory
 $ helm create <<helm_name>>
 
 
+Linting
 $ helm lint .
 
 
-generate kube artifacts 
+Package helm artifact into a tar.
+$ helm package .
 
+
+Generate kube artifacts 
 $ helm install --dry-run --debug . --generate-name
+
+
+Install to a namespace
+$ helm install db-connector-service ./db-connector-service-0.1.1.tgz --namespace wclms
