@@ -18,3 +18,8 @@ $ helm install --dry-run --debug . --generate-name
 
 Install to a namespace
 $ helm install db-connector-service ./db-connector-service-0.1.1.tgz --namespace wclms
+
+
+Uninstall from a namespace
+$ helm uninstall db-connector-service --namespace wclms
+
