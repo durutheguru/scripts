@@ -1,0 +1,11 @@
+
+
+$ helm create <<helm_name>>
+
+
+$ helm lint .
+
+
+generate kube artifacts 
+
+$ helm install --dry-run --debug . --generate-name
