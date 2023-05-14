@@ -43,5 +43,3 @@ while IFS= read -r dir; do
 done < "$input_file"
 
 
-
-
