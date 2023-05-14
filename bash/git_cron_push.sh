@@ -33,8 +33,7 @@ while IFS= read -r dir; do
         # Commit and push changes
         git config --global user.name "Julian Duru"
         git config --global user.email "durutheguru@gmail.com"
-        git add .
-        git commit -m "Code updates"
+        git diff --name-status | awk '$1 == "M" {print "Updated: "$2} $1 == "A" {print "Created: "$2}' | git commit -aF -
         git pull origin "$(git branch --show-current)"
         git push origin "$(git branch --show-current)"
     else
