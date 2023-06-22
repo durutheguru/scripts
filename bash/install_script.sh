@@ -22,7 +22,7 @@ file_name=${file%%.*}
 if grep -q "$file" "$bash_profile_path"; then
   echo "Updated Installation..."
 else
-  echo "alias $file_name='bash $file'" >> ~/.bash_profile
+  echo "alias $file_name='bash /usr/local/bin/$file'" >> ~/.bash_profile
   echo "Installation successful..."
 fi
 
