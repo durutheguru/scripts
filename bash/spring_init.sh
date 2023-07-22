@@ -1,7 +1,7 @@
 #! /bin/bash
 
 
-curl -H 'Accept: application/json' https://start.spring.io | python -m json.tool | grep "id"
+spring init --list
 
 read -p "java version: " javaVersion
 read -p "artifact: " artifact
